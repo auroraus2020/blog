@@ -1,0 +1,108 @@
+# Site settings
+title: Auroraus Blog
+SEOTitle: 张凡的博客 | Auroraus Blog
+header-img: img/home-bg-art.jpg
+email: aerozhang525@163.com
+description: "This is Auroraus's blog"
+url: "https://blog.auroraus.cn"           # your host, for absolute URL
+baseurl: ""                                  # root path, no subpath
+
+# Publish posts or collection documents with a future date.
+future: true
+
+# SNS settings
+RSS: false
+#weibo_username:     auroraus
+#zhihu_username:     huxpro
+#github_username:    
+#twitter_username:   huxpro
+#facebook_username:  huxpro
+#linkedin_username:  firstname-lastname-idxxxx
+
+
+
+# Build settings
+# from 2016, 'pygments' is unsupported on GitHub Pages. Use 'rouge' for highlighting instead.
+highlighter: rouge
+permalink: pretty
+paginate: 10
+exclude: ["less","node_modules","Gruntfile.js","package.json","README.md","README.zh.md","Gemfile","Gemfile.lock",".ruby-version","vendor"]
+anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
+# If you have timezone issue (e.g. #68) in China, uncomment to use this:
+#timezone: CN  
+
+
+
+# Gems
+# from PR#40, to support local preview for Jekyll 3.0
+# make sure you have this gem installed
+# `$ gem install jekyll-paginate`
+plugins: [jekyll-paginate]
+
+
+
+# Markdown settings
+# replace redcarpet to kramdown,
+# although redcarpet can auto highlight code, the lack of header-id make the catalog impossible, so I switch to kramdown
+# document: http://jekyllrb.com/docs/configuration/#kramdown
+markdown: kramdown
+kramdown:
+  input: GFM                            # use Github Flavored Markdown !important
+  syntax_highlighter_opts:
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
+
+
+
+# Disqus settings
+#disqus_username: hux
+
+# Netease settings
+netease_comment: false
+
+
+
+# Analytics settings
+# Baidu Analytics 
+ba_track_id: [b1514126e5ca867ad6ab5041a648871a]
+
+# Google Analytics
+#ga_track_id: 'UA-49627206-1'            # Format: UA-xxxxxx-xx
+#ga_domain: huangxuan.me
+
+
+
+# Sidebar settings
+sidebar: true                           # whether or not using Sidebar.
+sidebar-about-description: "业精于勤而荒于嬉，行成于思而毁于随"
+sidebar-avatar: https://auroraus-1258416167.cos.ap-beijing.myqcloud.com/blog/blog_config/%E6%88%91%E7%9A%84%E5%A4%B4%E5%83%8F.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+
+
+
+# Featured Tags
+featured-tags: true                     # whether or not using Feature-Tags
+featured-condition-size: 1              # A tag will be featured if the size of it is more than this condition value
+
+
+
+# Progressive Web Apps
+chrome-tab-theme-color: "#000000"
+service-worker: true
+
+
+
+# MathJax rendering for layout:page (e.g. post preview)
+page-mathjax: false
+
+
+
+# Friends
+friends: [
+    {
+        title: "英语阅读网站",
+        href: "https://liuwen.applinzi.com"
+    }
+]

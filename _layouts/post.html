@@ -1,0 +1,172 @@
+---
+layout: default
+---
+
+<!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+{% include intro-header.html type='post' %}
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <!-- Multi-Lingual -->
+                {% if page.multilingual %}
+                <!-- Language Selector -->
+                <select class="sel-lang" onchange="onLanChange(this.options[this.options.selectedIndex].value)">
+                    <option value="0" selected> 中文 Chinese </option>
+                    <option value="1"> 英文 English </option>
+                </select>
+                {% endif %}
+
+                {{ content }}
+
+                <!-- 分享到第三方安装代码 -->
+                <div class="bdsharebuttonbox tracking-ad bdshare-button-style0-16" style="float: left ;"
+                    data-mod="popu_172" data-bd-bind="1477908439475">
+                    <a href="#" class="bds_more" data-cmd="more"
+                        style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"
+                        target="_blank"></a>
+                    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"
+                        style="background-position:0 -52px !important" target="_blank"></a>
+                    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"
+                        style="background-position:0 -104px !important" target="_blank"></a>
+                    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"
+                        style="background-position:0 -260px !important" target="_blank"></a>
+                    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"
+                        style="background-position:0 -208px !important" target="_blank"></a>
+                    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"
+                        style="background-position:0 -1612px !important" target="_blank"></a>
+                </div>
+                <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+                <br>
+
+                <!--<hr style="visibility: hidden;">
+                <ul class="pager">
+                    {% if page.previous.url %}
+                    <li class="previous">
+                        <a href="{{ page.previous.url | prepend: site.baseurl | replace: '//', '/' }}"
+                            data-toggle="tooltip" data-placement="top" title="{{page.previous.title}}">
+                            Previous<br>
+                            <span>{{page.previous.title}}</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if page.next.url %}
+                    <li class="next">
+                        <a href="{{ page.next.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip"
+                            data-placement="top" title="{{page.next.title}}">
+                            Next<br>
+                            <span>{{page.next.title}}</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+                <hr style="visibility: hidden;">-->
+
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC81MjA1NC8yODUzNQ==">
+                    <script type="text/javascript">
+                        (function (d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+
+            </div>
+
+            <!-- Side Catalog Container -->
+            {% if page.catalog %}
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                {% include featured-tags.html bottom=true %}
+
+                <!-- Friends Blog -->
+                {% include friends.html %}
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- add support for mathjax by voleking-->
+{% if page.mathjax %}
+{% include mathjax_support.html %}
+{% endif %}
+
+
+
+{% if site.anchorjs %}
+<!-- async load function -->
+<script>
+    function async(u, c) {
+        var d = document, t = 'script',
+            o = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+        s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js", function () {
+        anchors.options = {
+            visible: 'always',
+            placement: 'right',
+            icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link {
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top: -0.1em;
+        }
+    }
+</style>
+{% endif %}
