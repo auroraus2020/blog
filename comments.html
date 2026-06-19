@@ -1,18 +1,20 @@
 ---
 layout: page
-title: "leave word"
-description: "留言"
-header-img: "img/about-bg.jpg"
-multilingual: true
+title: "留言板"
+description: "欢迎留下你的足迹"
+header-img: "img/contact-bg.jpg"
 ---
 
-
-<!--PC版-->
-<div id="SOHUCS" ></div>
-<script charset="utf-8" type="text/javascript" src="https://cy-cdn.kuaizhan.com/upload/changyan.js" ></script>
-<script type="text/javascript">
-window.changyan.api.config({
-appid: 'cyyzHVcWk',
-conf: 'prod_000d4e6b4775f57e3ea21e1758b55ca4'
-});
-</script>
+<div class="post-container" style="padding: 20px 0;">
+  <p style="text-align: center; color: #888; margin-bottom: 30px;">
+    在这里留下你想说的话，每一条留言我都会认真阅读 ✨
+  </p>
+  {% if site.giscus_repo_id and site.giscus_repo_id != 'YOUR_REPO_ID' %}
+  {% include giscus.html %}
+  {% else %}
+  <div style="text-align: center; padding: 40px; background: #f8f8f8; border-radius: 8px;">
+    <p style="color: #999;">评论系统尚未配置</p>
+    <p style="color: #bbb; font-size: 14px;">请前往 <a href="https://giscus.app/" target="_blank">Giscus</a> 配置后，在 <code>_config.yml</code> 中填入相关信息</p>
+  </div>
+  {% endif %}
+</div>

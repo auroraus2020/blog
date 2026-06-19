@@ -6,7 +6,11 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
 
+    {% if page.url contains '/aurora/' or page.aurora %}
+    {% include aurora-nav.html %}
+    {% else %}
     {% include nav.html %}
+    {% endif %}
 
     {{ content }}
 

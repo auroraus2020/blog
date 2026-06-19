@@ -57,10 +57,18 @@ kramdown:
 
 
 
-# Disqus settings
+# Giscus 评论系统设置
+# 请前往 https://giscus.app/ 配置你的 GitHub 仓库
+# 需要在 GitHub 仓库中启用 Discussions 功能并安装 Giscus App
+giscus_repo: "aerozf/aerozf.github.io"
+giscus_repo_id: "YOUR_REPO_ID"
+giscus_category: "Announcements"
+giscus_category_id: "YOUR_CATEGORY_ID"
+
+# Disqus settings (已弃用)
 #disqus_username: hux
 
-# Netease settings
+# Netease settings (已弃用)
 netease_comment: false
 
 
@@ -95,7 +103,7 @@ service-worker: true
 
 
 # MathJax rendering for layout:page (e.g. post preview)
-page-mathjax: false
+page-mathjax: true
 
 
 

@@ -1,0 +1,93 @@
+---
+layout: page
+title: "Aurora"
+description: "非公开空间 - 知识、生活、科研与思考"
+header-img: "img/home-bg-o.jpg"
+header-mask: 0.3
+---
+
+<style>
+.aurora-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 28px;
+  margin: 50px 0;
+}
+.aurora-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: #333;
+  border: 1px solid #f0f0f0;
+}
+.aurora-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  text-decoration: none;
+  color: #333;
+}
+.aurora-card .card-icon {
+  font-size: 42px;
+  margin-bottom: 16px;
+  display: block;
+}
+.aurora-card .card-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.aurora-card .card-desc {
+  font-size: 14px;
+  color: #888;
+  line-height: 1.6;
+}
+.aurora-card.knowledge { border-top: 3px solid #4A90D9; }
+.aurora-card.life { border-top: 3px solid #7EC855; }
+.aurora-card.research { border-top: 3px solid #E2734A; }
+.aurora-card.self { border-top: 3px solid #9B59B6; }
+.aurora-card.idea { border-top: 3px solid #F1C40F; }
+.aurora-card.notebook { border-top: 3px solid #1ABC9C; }
+.aurora-card.buaa { border-top: 3px solid #E74C3C; }
+</style>
+
+<div class="aurora-grid">
+  <a href="{{ site.baseurl }}/aurora/knowledge" class="aurora-card knowledge">
+    <span class="card-icon">📚</span>
+    <div class="card-title">知识系统</div>
+    <div class="card-desc">系统化整理的知识体系，持续学习与积累</div>
+  </a>
+  <a href="{{ site.baseurl }}/aurora/life" class="aurora-card life">
+    <span class="card-icon">🌿</span>
+    <div class="card-title">生活记录</div>
+    <div class="card-desc">记录生活中的点滴，珍藏每一刻时光</div>
+  </a>
+  <a href="{{ site.baseurl }}/aurora/ScientificReserch" class="aurora-card research">
+    <span class="card-icon">🔬</span>
+    <div class="card-title">科学研究</div>
+    <div class="card-desc">学术探索与科研实践，追逐真理之路</div>
+  </a>
+  <a href="{{ site.baseurl }}/aurora/toself" class="aurora-card self">
+    <span class="card-icon">💭</span>
+    <div class="card-title">自我对话</div>
+    <div class="card-desc">与内心深处的自己对话，关于理想与信念</div>
+  </a>
+  <a href="{{ site.baseurl }}/aurora/idea" class="aurora-card idea">
+    <span class="card-icon">💡</span>
+    <div class="card-title">想法碎片</div>
+    <div class="card-desc">一闪而过的灵感与思考，记录下每一个想法</div>
+  </a>
+  <a href="{{ site.baseurl }}/aurora/notebook" class="aurora-card notebook">
+    <span class="card-icon">📝</span>
+    <div class="card-title">学习笔记</div>
+    <div class="card-desc">课程与自学的笔记整理，温故而知新</div>
+  </a>
+  <a href="{{ site.baseurl }}/aurora/buaa" class="aurora-card buaa">
+    <span class="card-icon">🎓</span>
+    <div class="card-title">北航记录</div>
+    <div class="card-desc">在北航求学的日子，研究生涯的点点滴滴</div>
+  </a>
+</div>
