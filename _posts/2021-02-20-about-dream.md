@@ -1,5 +1,6 @@
 ---
 layout:     post
+toself: true
 title:      "关于理想"
 subtitle:   " \"about dream\""
 date:       2021-02-20 02:00:00
