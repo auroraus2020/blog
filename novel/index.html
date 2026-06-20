@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auroraus 小说</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-page: #fdf8f0;
+  --bg-card: #ffffff;
+  --text-primary: #3a2510;
+  --text-secondary: #b87333;
+  --text-muted: #8c7a6a;
+  --accent: #c0823a;
+  --accent-glow: rgba(192, 130, 58, 0.12);
+  --border-subtle: rgba(180, 130, 80, 0.18);
+  --border-gold: rgba(180, 130, 80, 0.5);
+  --shadow-card: 0 2px 20px rgba(0,0,0,0.06);
+  --shadow-lift: 0 12px 44px rgba(0,0,0,0.12), 0 0 0 1px var(--border-gold);
+  --font-display: 'ZCOOL XiaoWei', 'Noto Serif SC', serif;
+  --font-body: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background-color: var(--bg-page);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(192,130,58,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 100%, rgba(200,160,120,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 60%, rgba(220,190,150,0.04) 0%, transparent 50%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(180,150,120,0.03) 3px,
+      rgba(180,150,120,0.03) 6px
+    );
+  z-index: -1;
+  pointer-events: none;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 40px 80px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 80px;
+  opacity: 0;
+  animation: fadeSlideDown 1s ease-out forwards;
+}
+
+.header-decoration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.header-decoration::before,
+.header-decoration::after {
+  content: '';
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+
+.header-decoration-icon {
+  color: var(--accent);
+  font-size: 20px;
+  opacity: 0.7;
+}
+
+.header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 400;
+  color: var(--text-primary);
+  letter-spacing: 0.15em;
+  margin-bottom: 16px;
+}
+
+.header .subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  letter-spacing: 0.2em;
+  font-weight: 300;
+}
+
+.header .divider {
+  margin: 32px auto 0;
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  border-radius: 1px;
+}
+
+.philosophy {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 72px;
+  opacity: 0;
+  animation: fadeSlideUp 0.8s ease-out forwards;
+  animation-delay: 0.15s;
+}
+
+.philosophy .philosophy-icon {
+  display: block;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.philosophy .philosophy-text {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 2;
+  letter-spacing: 0.06em;
+  font-weight: 300;
+}
+
+.philosophy .philosophy-em {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.novel-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.novel-card {
+  opacity: 0;
+  animation: fadeSlideUp 0.8s ease-out forwards;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.novel-card:nth-child(1) { animation-delay: 0.2s; }
+.novel-card:nth-child(2) { animation-delay: 0.35s; }
+.novel-card:nth-child(3) { animation-delay: 0.5s; }
+
+.card-inner {
+  background: var(--bg-card);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.4s ease,
+              border-color 0.4s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.novel-card:hover .card-inner {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lift);
+  border-color: var(--border-gold);
+}
+
+.cover-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #f0e8d8;
+}
+
+.cover-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.novel-card:hover .cover-wrapper img {
+  transform: scale(1.05);
+}
+
+.cover-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background:
+    linear-gradient(135deg, #f5ede0 0%, #ede3d2 30%, #f2e9da 60%, #fdf8f0 100%);
+  position: relative;
+}
+
+.cover-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 16px;
+  border: 1px solid rgba(180,130,80,0.2);
+  border-radius: 2px;
+}
+
+.cover-placeholder::after {
+  content: '';
+  position: absolute;
+  inset: 20px;
+  border: 1px solid rgba(180,130,80,0.12);
+  border-radius: 2px;
+}
+
+.cover-placeholder .book-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  opacity: 0.5;
+  position: relative;
+  z-index: 1;
+}
+
+.cover-placeholder .book-label {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  letter-spacing: 0.15em;
+  opacity: 0.5;
+  position: relative;
+  z-index: 1;
+}
+
+.cover-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 60%,
+    rgba(255,248,240,0.85) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.novel-card:hover .cover-overlay {
+  opacity: 1;
+}
+
+.cover-overlay .view-hint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  color: var(--accent);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+}
+
+.novel-card:hover .cover-overlay .view-hint {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.card-info {
+  padding: 24px 20px 28px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-info .novel-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+.novel-card:hover .card-info .novel-title {
+  color: var(--accent);
+}
+
+.card-info .novel-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  font-weight: 300;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-info .novel-meta {
+  margin-top: auto;
+  padding-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  opacity: 0.6;
+  letter-spacing: 0.08em;
+}
+
+.card-info .novel-meta .meta-dot {
+  width: 4px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.footer {
+  text-align: center;
+  padding: 0 40px 60px;
+  opacity: 0;
+  animation: fadeSlideUp 0.8s ease-out forwards;
+  animation-delay: 0.65s;
+}
+
+.footer .footer-divider {
+  margin: 0 auto 32px;
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--text-muted), transparent);
+  opacity: 0.4;
+}
+
+.footer .footer-text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  opacity: 0.5;
+  letter-spacing: 0.1em;
+  font-weight: 300;
+  margin-bottom: 8px;
+}
+
+.footer .footer-creator {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  font-weight: 300;
+}
+
+.footer .footer-creator a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.footer .footer-creator a:hover {
+  color: var(--text-secondary);
+  border-bottom-color: var(--accent);
+}
+
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1023px) {
+  .novel-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+
+  .container {
+    padding: 48px 28px 64px;
+  }
+
+  .header {
+    margin-bottom: 60px;
+  }
+}
+
+@media (max-width: 640px) {
+  .novel-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .container {
+    padding: 40px 20px 56px;
+  }
+
+  .header {
+    margin-bottom: 48px;
+  }
+
+  .header h1 {
+    font-size: 1.8rem;
+  }
+
+  .header .subtitle {
+    font-size: 0.85rem;
+  }
+
+  .philosophy {
+    margin-bottom: 52px;
+  }
+
+  .philosophy .philosophy-text {
+    font-size: 0.9rem;
+    line-height: 1.9;
+  }
+
+  .card-info {
+    padding: 20px 16px 24px;
+  }
+
+  .card-info .novel-title {
+    font-size: 1.15rem;
+  }
+
+  .cover-placeholder .book-icon {
+    font-size: 2.5rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header class="header">
+    <div class="header-decoration">
+      <span class="header-decoration-icon">&#10086;</span>
+    </div>
+    <h1>Auroraus 小说</h1>
+    <p class="subtitle">于字里行间，遇见另一个世界</p>
+    <div class="divider"></div>
+  </header>
+
+  <section class="philosophy">
+    <span class="philosophy-icon">&#10045;</span>
+    <p class="philosophy-text">
+      以<span class="philosophy-em">小说</span>为舟，载<span class="philosophy-em">文化</span>以远航；<br>
+      以<span class="philosophy-em">文字</span>为镜，映<span class="philosophy-em">思想</span>之光芒。<br>
+      记录时代，传播薪火，让每一段故事都成为文明的注脚。
+    </p>
+  </section>
+
+  <div class="novel-grid">
+
+    <a href="qiqiao/index.html" class="novel-card" target="_blank">
+      <div class="card-inner">
+        <div class="cover-wrapper">
+          <img src="qiqiao/assets/cover.jpg" alt="七天八夜——西和乞巧" loading="lazy">
+          <div class="cover-overlay">
+            <span class="view-hint">&#9654; 开始阅读</span>
+          </div>
+        </div>
+        <div class="card-info">
+          <h2 class="novel-title">七天八夜——西和乞巧</h2>
+          <p class="novel-desc">一场关于古老节俗与青春记忆的深情书写，在陇南的山水之间，七天八夜的故事缓缓展开。</p>
+          <div class="novel-meta">
+            <span>民俗</span>
+            <span class="meta-dot"></span>
+            <span>中篇</span>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a href="galaxy/index.html" class="novel-card" target="_blank">
+      <div class="card-inner">
+        <div class="cover-wrapper">
+          <img src="galaxy/images/ch07_meteor_teach.jpg" alt="小径分岔的银河" loading="lazy">
+          <div class="cover-overlay">
+            <span class="view-hint">&#9654; 开始阅读</span>
+          </div>
+        </div>
+        <div class="card-info">
+          <h2 class="novel-title">小径分岔的银河</h2>
+          <p class="novel-desc">在银河分岔的每一条小径上，都是一段关于选择、平行宇宙与命运交织的科幻诗篇。</p>
+          <div class="novel-meta">
+            <span>科幻</span>
+            <span class="meta-dot"></span>
+            <span>短篇</span>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a href="qin-history/index.html" class="novel-card" target="_blank">
+      <div class="card-inner">
+        <div class="cover-wrapper">
+          <img src="qin-history/assets/qin.jpg" alt="秦史经略" loading="lazy">
+          <div class="cover-overlay">
+            <span class="view-hint">&#9654; 开始阅读</span>
+          </div>
+        </div>
+        <div class="card-info">
+          <h2 class="novel-title">秦史经略</h2>
+          <p class="novel-desc">一个西部边陲的养马部落，如何崛起为天下霸主，又如何从巅峰坠入深渊</p>
+          <div class="novel-meta">
+            <span>历史</span>
+            <span class="meta-dot"></span>
+            <span>中篇</span>
+          </div>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-divider"></div>
+  <p class="footer-text">每一本书，都是一个等待被打开的世界</p>
+  <p class="footer-creator">创建者：<a href="https://blog.auroraus.cn" target="_blank" rel="noopener">张凡</a></p>
+</footer>
+
+</body>
+</html>
