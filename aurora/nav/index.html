@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURORAUS个人导航</title>
+
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --bg2: #ffffff;
+      --bg3: #f1f5f9;
+      --ink: #1e293b;
+      --muted: #64748b;
+      --rule: #e2e8f0;
+      --accent: #3b82f6;
+      --accent2: #8b5cf6;
+      --accent3: #10b981;
+      --accent4: #ec4899;
+      --accent5: #f59e0b;
+      --accent6: #f97316;
+      --accent7: #a78bfa;
+      --accent8: #ef4444;
+      --accent9: #14b8a6;
+      --accent10: #c084fc;
+      --sidebar-w: 220px;
+      --font: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      --max: 1200px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* === Hero === */
+    .hero {
+      position: relative; width: 100%; min-height: 260px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; overflow: hidden; padding: 3rem 1rem;
+    }
+    .hero-bg {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: url('assets/hero_bg.jpg') center/cover no-repeat;
+      opacity: 0.45; z-index: 0;
+    }
+    .hero-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(180deg, rgba(248,250,252,0.15) 0%, rgba(248,250,252,0.92) 100%);
+      z-index: 1;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 600px; width: 100%; }
+    .hero h1 {
+      font-size: 2.6rem; font-weight: 700; margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero p { font-size: 1.05rem; color: var(--muted); margin-bottom: 1.5rem; }
+
+    /* === Layout === */
+    .page-wrapper { display: flex; max-width: var(--max); margin: 0 auto; padding: 0 1rem 3rem; gap: 1.5rem; }
+
+    /* === Sidebar === */
+    .sidebar {
+      display: none; position: sticky; top: 1rem; width: var(--sidebar-w); flex-shrink: 0;
+      align-self: flex-start; max-height: calc(100vh - 2rem); overflow-y: auto;
+      background: var(--bg2); border: 1px solid var(--rule); border-radius: 16px;
+      padding: 1rem 0.75rem; box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    }
+    .sidebar-title {
+      font-size: 0.75rem; font-weight: 600; color: var(--muted); text-transform: uppercase;
+      letter-spacing: 0.08em; padding: 0.25rem 0.75rem 0.6rem; border-bottom: 1px solid var(--rule); margin-bottom: 0.5rem;
+    }
+    .sidebar a {
+      display: flex; align-items: center; gap: 0.5rem; padding: 0.55rem 0.75rem;
+      border-radius: 10px; color: var(--muted); font-size: 0.88rem;
+      text-decoration: none; transition: all 0.2s; margin-bottom: 2px;
+    }
+    .sidebar a:hover { background: var(--bg3); color: var(--ink); }
+    .sidebar a.active { background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1)); color: var(--accent); font-weight: 600; }
+    .sidebar a img { width: 22px; height: 22px; border-radius: 5px; object-fit: cover; }
+
+    /* === Mobile Tabs === */
+    .mobile-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; padding: 1rem 0.5rem; max-width: var(--max); margin: 0 auto; }
+    .mobile-tab {
+      display: flex; align-items: center; gap: 0.3rem; padding: 0.4rem 0.8rem;
+      background: var(--bg2); border: 1px solid var(--rule); border-radius: 20px;
+      color: var(--muted); font-size: 0.82rem; cursor: pointer; transition: all 0.2s;
+      text-decoration: none; white-space: nowrap;
+    }
+    .mobile-tab:hover, .mobile-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .mobile-tab img { width: 18px; height: 18px; border-radius: 4px; object-fit: cover; }
+
+    /* === Main === */
+    .main-content { flex: 1; min-width: 0; }
+
+    /* === Category === */
+    .category-section { margin-bottom: 2.5rem; scroll-margin-top: 20px; }
+    .category-header {
+      display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.1rem;
+      padding-bottom: 0.7rem; border-bottom: 2px solid var(--rule);
+    }
+    .category-header img { width: 34px; height: 34px; border-radius: 8px; object-fit: cover; }
+    .category-header h2 { font-size: 1.3rem; font-weight: 600; color: var(--ink); }
+    .category-header .count { margin-left: auto; font-size: 0.78rem; color: var(--muted); background: var(--bg3); padding: 0.2rem 0.6rem; border-radius: 12px; }
+
+    /* === Cards === */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; }
+    .nav-card {
+      display: flex; align-items: flex-start; gap: 1rem;
+      background: var(--bg2); border: 1px solid var(--rule); border-radius: 14px;
+      padding: 1.2rem 1.3rem; text-decoration: none; color: inherit; transition: all 0.3s; cursor: pointer;
+    }
+    .nav-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    .nav-card .icon {
+      width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center;
+      justify-content: center; font-size: 1.3rem; font-weight: 700; flex-shrink: 0;
+    }
+    .nav-card .info { flex: 1; min-width: 0; }
+    .nav-card .info h3 { font-size: 1rem; font-weight: 600; color: var(--ink); margin-bottom: 0.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .nav-card .info p { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+    .nav-card .info .url { font-size: 0.72rem; color: #94a3b8; margin-top: 0.3rem; font-family: 'Segoe UI', monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* === Icon Colors === */
+    .icon-blue { background: rgba(59,130,246,0.12); color: #2563eb; }
+    .icon-purple { background: rgba(139,92,246,0.12); color: #7c3aed; }
+    .icon-orange { background: rgba(249,115,22,0.12); color: #ea580c; }
+    .icon-green { background: rgba(16,185,129,0.12); color: #059669; }
+    .icon-red { background: rgba(239,68,68,0.12); color: #dc2626; }
+    .icon-teal { background: rgba(20,184,166,0.12); color: #0d9488; }
+    .icon-pink { background: rgba(236,72,153,0.12); color: #db2777; }
+    .icon-cyan { background: rgba(6,182,212,0.12); color: #0891b2; }
+    .icon-indigo { background: rgba(99,102,241,0.12); color: #4f46e5; }
+
+    /* === Footer === */
+    footer { text-align: center; padding: 2rem 1rem; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--rule); max-width: var(--max); margin: 0 auto; }
+    footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+    footer a:hover { text-decoration: underline; }
+
+    /* === Responsive === */
+    @media (min-width: 1024px) { .sidebar { display: block; } .mobile-tabs { display: none; } .card-grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); } }
+    @media (max-width: 1023px) {
+      .hero h1 { font-size: 2rem; }
+      .hero p { font-size: 1rem; }
+      .hero { min-height: 220px; padding: 2rem 1rem; }
+      .page-wrapper { flex-direction: column; padding: 0 0.75rem 2rem; }
+    }
+    @media (max-width: 640px) {
+      .card-grid { grid-template-columns: 1fr; }
+      .mobile-tabs { gap: 0.3rem; padding: 0.75rem 0.5rem; }
+      .mobile-tab { font-size: 0.78rem; padding: 0.35rem 0.65rem; }
+      .hero h1 { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>AURORAUS个人导航</h1>
+      <p>我的个人网站与工具，快速直达</p>
+    </div>
+  </section>
+
+  <!-- Mobile Tabs -->
+  <nav class="mobile-tabs">
+    <a class="mobile-tab active" href="#cat-blog" onclick="setActive(this)"><img src="assets/icon_blog.jpg" alt="">博客</a>
+    <a class="mobile-tab" href="#cat-sim" onclick="setActive(this)"><img src="assets/icon_sim.jpg" alt="">仿真</a>
+    <a class="mobile-tab" href="#cat-ai" onclick="setActive(this)"><img src="assets/icon_ai.jpg" alt="">AI应用</a>
+    <a class="mobile-tab" href="#cat-code" onclick="setActive(this)"><img src="assets/icon_code.jpg" alt="">在线编程</a>
+  </nav>
+
+  <!-- Desktop: Sidebar + Content -->
+  <div class="page-wrapper">
+    <aside class="sidebar">
+      <div class="sidebar-title">分类导航</div>
+      <a class="active" href="#cat-blog" onclick="setActive(this)"><img src="assets/icon_blog.jpg" alt="">博客</a>
+      <a href="#cat-sim" onclick="setActive(this)"><img src="assets/icon_sim.jpg" alt="">仿真</a>
+      <a href="#cat-ai" onclick="setActive(this)"><img src="assets/icon_ai.jpg" alt="">AI应用</a>
+      <a href="#cat-code" onclick="setActive(this)"><img src="assets/icon_code.jpg" alt="">在线编程</a>
+    </aside>
+
+    <main class="main-content">
+
+      <!-- ========== 博客 ========== -->
+      <section class="category-section" id="cat-blog">
+        <div class="category-header">
+          <img src="assets/icon_blog.jpg" alt="">
+          <h2>博客</h2>
+          <span class="count">2个站点</span>
+        </div>
+        <div class="card-grid">
+          <a class="nav-card" href="https://blog.auroraus.cn/" target="_blank" rel="noopener">
+            <div class="icon icon-blue">A</div>
+            <div class="info">
+              <h3>Auroraus博客</h3>
+              <p>我的个人博客，记录技术与生活</p>
+              <span class="url">blog.auroraus.cn</span>
+            </div>
+          </a>
+          <a class="nav-card" href="https://blog.auroraus.cn/aurora/" target="_blank" rel="noopener">
+            <div class="icon icon-purple">S</div>
+            <div class="info">
+              <h3>个人空间</h3>
+              <p>个人空间页面，了解更多关于我</p>
+              <span class="url">blog.auroraus.cn/aurora</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- ========== 仿真 ========== -->
+      <section class="category-section" id="cat-sim">
+        <div class="category-header">
+          <img src="assets/icon_sim.jpg" alt="">
+          <h2>仿真</h2>
+          <span class="count">2个站点</span>
+        </div>
+        <div class="card-grid">
+          <a class="nav-card" href="http://ai.auroraus.cn:5001/" target="_blank" rel="noopener">
+            <div class="icon icon-orange">M</div>
+            <div class="info">
+              <h3>发动机优化状态监控</h3>
+              <p>航空发动机优化与状态监测系统</p>
+              <span class="url">ai.auroraus.cn:5001</span>
+            </div>
+          </a>
+          <a class="nav-card" href="http://ai.auroraus.cn:5005/" target="_blank" rel="noopener">
+            <div class="icon icon-red">E</div>
+            <div class="info">
+              <h3>发动机在线仿真</h3>
+              <p>航空发动机在线仿真平台</p>
+              <span class="url">ai.auroraus.cn:5005</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- ========== AI应用 ========== -->
+      <section class="category-section" id="cat-ai">
+        <div class="category-header">
+          <img src="assets/icon_ai.jpg" alt="">
+          <h2>AI应用</h2>
+          <span class="count">2个站点</span>
+        </div>
+        <div class="card-grid">
+          <a class="nav-card" href="http://ai.auroraus.cn/apps" target="_blank" rel="noopener">
+            <div class="icon icon-indigo">D</div>
+            <div class="info">
+              <h3>DIFY管理</h3>
+              <p>DIFY AI应用管理平台</p>
+              <span class="url">ai.auroraus.cn/apps</span>
+            </div>
+          </a>
+          <a class="nav-card" href="http://ai.auroraus.cn/chat/MbJFaXh4LdTMXIM1" target="_blank" rel="noopener">
+            <div class="icon icon-pink">T</div>
+            <div class="info">
+              <h3>翻译助手</h3>
+              <p>AI翻译助手，智能多语言翻译</p>
+              <span class="url">ai.auroraus.cn/chat</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- ========== 在线编程 ========== -->
+      <section class="category-section" id="cat-code">
+        <div class="category-header">
+          <img src="assets/icon_code.jpg" alt="">
+          <h2>在线编程</h2>
+          <span class="count">1个站点</span>
+        </div>
+        <div class="card-grid">
+          <a class="nav-card" href="http://ai.auroraus.cn:8888/lab" target="_blank" rel="noopener">
+            <div class="icon icon-teal">J</div>
+            <div class="info">
+              <h3>Jupyter Lab</h3>
+              <p>交互式编程环境，支持Python等</p>
+              <span class="url">ai.auroraus.cn:8888/lab</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <p>AURORAUS个人导航 &copy; 2024 | 贡献者：<a href="https://blog.auroraus.cn/" target="_blank" rel="noopener">张凡</a></p>
+  </footer>
+
+  <script>
+    function setActive(el) {
+      document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+      document.querySelectorAll('.mobile-tab').forEach(a => a.classList.remove('active'));
+      const href = el.getAttribute('href');
+      document.querySelectorAll('.sidebar a, .mobile-tab').forEach(a => {
+        if (a.getAttribute('href') === href) a.classList.add('active');
+      });
+    }
+
+    function updateActiveOnScroll() {
+      const sections = document.querySelectorAll('.category-section');
+      let current = '';
+      sections.forEach(sec => {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top <= 120) current = sec.id;
+      });
+      if (current) {
+        document.querySelectorAll('.sidebar a, .mobile-tab').forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+      }
+    }
+    window.addEventListener('scroll', updateActiveOnScroll, { passive: true });
+  </script>
+
+</body>
+</html>

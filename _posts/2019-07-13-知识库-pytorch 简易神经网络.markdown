@@ -1,5 +1,6 @@
 ---
 layout:     post
+isblog: True
 know: true
 title:      "pytorch 简易神经网络"
 subtitle:   " \" Pytorch Simple Neural Network\""

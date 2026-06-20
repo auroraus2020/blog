@@ -86,7 +86,7 @@ ba_track_id: [b1514126e5ca867ad6ab5041a648871a]
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
 sidebar-about-description: "业精于勤而荒于嬉，行成于思而毁于随"
-sidebar-avatar: https://auroraus-1258416167.cos.ap-beijing.myqcloud.com/blog/blog_config/%E6%88%91%E7%9A%84%E5%A4%B4%E5%83%8F.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-avatar: https://auroraus-1258416167.cos.ap-beijing.myqcloud.com/blog/other/traval/%E7%BE%8E%E4%B8%BD%E7%9A%84%E5%AE%B6%E4%B9%A1/15.png # https://auroraus-1258416167.cos.ap-beijing.myqcloud.com/blog/blog_config/%E6%88%91%E7%9A%84%E5%A4%B4%E5%83%8F.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
 
@@ -110,7 +110,7 @@ page-mathjax: true
 # Friends
 friends: [
     {
-        title: "英语阅读网站",
-        href: "https://liuwen.applinzi.com"
+        title: "Auroraus导航",
+        href: "https://blog.auroraus.cn/nav"
     }
 ]
