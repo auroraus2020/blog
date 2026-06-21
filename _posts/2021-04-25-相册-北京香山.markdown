@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 北京香山
+isblog: true
 album: True
 subtitle:   " \"北京\""
 date:  2021-04-25 12:15:00

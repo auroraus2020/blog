@@ -1,5 +1,6 @@
 ---
 layout:     post
+isblog: true
 note: true
 title:      "Matlab App Designer 笔记"
 subtitle:   " \" Matlab App Designer note\""

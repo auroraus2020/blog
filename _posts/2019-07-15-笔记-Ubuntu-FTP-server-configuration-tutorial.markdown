@@ -1,5 +1,6 @@
 ---
 layout:     post
+isblog: true
 note: true
 title:      "Ubuntu FTP服务器搭建"
 subtitle:   " \"Ubuntu FTP server configuration tutorial\""

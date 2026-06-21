@@ -1,5 +1,6 @@
 ---
 layout:     post
+isblog: true
 note: true
 title:      "文本转语音&语音识别技术"
 subtitle:   " \"Text to Speech & Speech Recognition Technology\""
