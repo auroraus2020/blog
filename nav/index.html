@@ -289,16 +289,52 @@
     }
     .modal-close-btn:hover { background: var(--rule); color: var(--ink); }
 
+    /* === Sticky Search === */
+    .sticky-search {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 99;
+      background: var(--bg); padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--rule); box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      transform: translateY(-100%); transition: transform 0.25s ease;
+      display: flex; justify-content: center; gap: 0.5rem; align-items: center;
+    }
+    .sticky-search.visible { transform: translateY(0); }
+    .sticky-search .sticky-engine {
+      font-size: 0.75rem; color: var(--muted); white-space: nowrap;
+      padding: 0.35rem 0.6rem; border: 1px solid var(--rule); border-radius: 12px;
+      cursor: pointer; min-width: 80px; text-align: center;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .sticky-search .sticky-engine:hover { border-color: var(--accent); color: var(--accent); }
+    .sticky-search .sticky-input {
+      flex: 1; max-width: 500px; padding: 0.5rem 0.9rem;
+      border: 1px solid var(--rule); border-radius: 20px; background: var(--bg2);
+      color: var(--ink); font-size: 0.92rem; outline: none;
+      transition: border-color 0.2s;
+    }
+    .sticky-search .sticky-input:focus { border-color: var(--accent); }
+    .sticky-search .sticky-btn {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none; color: #fff; padding: 0.5rem 1.3rem; border-radius: 20px;
+      font-size: 0.88rem; font-weight: 600; cursor: pointer;
+    }
+
     /* === Footer === */
     footer { text-align: center; padding: 2rem 1rem; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--rule); max-width: var(--max); margin: 0 auto; }
 
     /* === Responsive === */
     @media (min-width: 1024px) { .sidebar { display: block; } .mobile-tabs { display: none; } .card-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); } }
-    @media (max-width: 1023px) { .hero h1 { font-size: 1.6rem; } .hero { min-height: 220px; padding: 2rem 1rem; } .page-wrapper { flex-direction: column; padding: 0 0.75rem 2rem; } }
+    @media (max-width: 1023px) { .hero h1 { font-size: 1.6rem; } .hero { min-height: 220px; padding: 2rem 1rem; } .page-wrapper { flex-direction: column; padding: 0 0.75rem 2rem; } .desktop-only { display: none !important; } }
     @media (max-width: 640px) { .card-grid { grid-template-columns: 1fr; } .mobile-tabs { gap: 0.3rem; padding: 0.75rem 0.5rem; } .mobile-tab { font-size: 0.78rem; padding: 0.35rem 0.65rem; } .hero h1 { font-size: 1.4rem; } .search-box input { font-size: 0.85rem; padding: 0.5rem 0.7rem; } .search-box button { font-size: 0.8rem; padding: 0.5rem 1rem; } }
   </style>
 </head>
 <body>
+
+  <!-- Sticky top search -->
+  <div class="sticky-search" id="stickySearch">
+    <span class="sticky-engine" id="stickyEngine" onclick="clickStickyEngine()" title="按Ctrl循环切换引擎">必应</span>
+    <input type="text" class="sticky-input" id="stickyInput" placeholder="输入关键词搜索...">
+    <button class="sticky-btn" onclick="doSearchFromSticky()">搜索</button>
+  </div>
 
   <!-- Hero -->
   <section class="hero">
@@ -315,16 +351,16 @@
       <div class="search-engines">
         <label class="engine-option active"><input type="radio" name="engine" value="bing" checked>🔵必应</label>
         <label class="engine-option"><input type="radio" name="engine" value="baidu">🔴百度</label>
-        <label class="engine-option"><input type="radio" name="engine" value="google">🟢谷歌</label>
+        <label class="engine-option desktop-only"><input type="radio" name="engine" value="google">🟢谷歌</label>
         <label class="engine-option"><input type="radio" name="engine" value="sogou">🟠搜狗</label>
-        <label class="engine-option"><input type="radio" name="engine" value="sogouweixin">🟢搜狗微信</label>
-        <label class="engine-option"><input type="radio" name="engine" value="sogouzhihu">🔵搜狗知乎</label>
+        <label class="engine-option desktop-only"><input type="radio" name="engine" value="sogouweixin">🟢搜狗微信</label>
+        <label class="engine-option desktop-only"><input type="radio" name="engine" value="sogouzhihu">🔵搜狗知乎</label>
         <label class="engine-option"><input type="radio" name="engine" value="yandex">🔴Yandex</label>
-        <label class="engine-option"><input type="radio" name="engine" value="gscholar2">🟣谷歌学术②</label>
-        <label class="engine-option"><input type="radio" name="engine" value="xmol">🟢XMOL</label>
-        <label class="engine-option"><input type="radio" name="engine" value="googlescholar">🔵谷歌学术</label>
-        <label class="engine-option"><input type="radio" name="engine" value="buaaebsco">🟠北航外文</label>
-        <label class="engine-option"><input type="radio" name="engine" value="baiduxueshu">🔴百度学术</label>
+        <label class="engine-option desktop-only"><input type="radio" name="engine" value="gscholar2">🟣谷歌学术②</label>
+        <label class="engine-option desktop-only"><input type="radio" name="engine" value="xmol">🟢XMOL</label>
+        <label class="engine-option desktop-only"><input type="radio" name="engine" value="googlescholar">🔵谷歌学术</label>
+        <label class="engine-option desktop-only"><input type="radio" name="engine" value="buaaebsco">🟠北航外文</label>
+        <label class="engine-option desktop-only"><input type="radio" name="engine" value="baiduxueshu">🔴百度学术</label>
       </div>
       <div class="frequent-section" id="frequentSection">
         <div class="frequent-title">常用站点</div>
@@ -1130,6 +1166,7 @@
       input.value = '';
       input.focus();
       input.dispatchEvent(new Event('input'));
+      document.getElementById('stickyInput').value = '';
     }
 
     function doNavSearch() {
@@ -1300,7 +1337,8 @@
           var current = JSON.parse(localStorage.getItem('nav_clicks') || '{}');
           var hrefs = current._hrefs || {};
           delete current._hrefs;
-          var sorted = Object.keys(current).sort(function(a,b){ return current[b] - current[a]; }).slice(0, 6);
+          var maxFreq = window.innerWidth <= 640 ? 3 : 6;
+          var sorted = Object.keys(current).sort(function(a,b){ return current[b] - current[a]; }).slice(0, maxFreq);
           if (sorted.length === 0) return;
           section.classList.add('visible');
           grid.innerHTML = sorted.map(function(name) {
@@ -1335,6 +1373,7 @@
         e.preventDefault();
         applyEngine(engineKeys[fIndex]);
         saveEnginePref(engineKeys[fIndex]);
+        updateStickyEngineLabel();
         document.getElementById('searchInput').focus();
         document.getElementById('searchInput').select();
         return;
@@ -1366,6 +1405,7 @@
         var next = (idx + 1) % engineKeys.length;
         applyEngine(engineKeys[next]);
         saveEnginePref(engineKeys[next]);
+        updateStickyEngineLabel();
         document.getElementById('searchInput').focus();
         document.getElementById('searchInput').select();
       }
@@ -1377,6 +1417,61 @@
     function closeFeedbackModal() {
       document.getElementById('feedbackModal').classList.remove('visible');
     }
+
+    var stickySearch = document.getElementById('stickySearch');
+    var stickyInput = document.getElementById('stickyInput');
+    var stickyEngine = document.getElementById('stickyEngine');
+    var heroEl = document.querySelector('.hero');
+
+    function updateStickyEngineLabel() {
+      var engine = getSelectedEngine();
+      var labels = {bing:'必应',baidu:'百度',google:'谷歌',sogou:'搜狗',sogouweixin:'搜狗微信',sogouzhihu:'搜狗知乎',yandex:'Yandex',gscholar2:'谷歌学术②',xmol:'XMOL',googlescholar:'谷歌学术',buaaebsco:'北航外文',baiduxueshu:'百度学术'};
+      stickyEngine.textContent = labels[engine] || engine;
+    }
+    updateStickyEngineLabel();
+
+    document.querySelectorAll('.engine-option').forEach(function(label) {
+      label.addEventListener('click', function() {
+        setTimeout(updateStickyEngineLabel, 50);
+      });
+    });
+
+    document.getElementById('searchInput').addEventListener('input', function() {
+      stickyInput.value = this.value;
+    });
+    stickyInput.addEventListener('input', function() {
+      document.getElementById('searchInput').value = this.value;
+      document.getElementById('searchInput').dispatchEvent(new Event('input'));
+    });
+    stickyInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') doSearchFromSticky();
+    });
+
+    function doSearchFromSticky() {
+      document.getElementById('searchInput').value = stickyInput.value;
+      doSearch();
+    }
+
+    function clickStickyEngine() {
+      var engine = getSelectedEngine();
+      var idx = engineKeys.indexOf(engine);
+      var next = (idx + 1) % engineKeys.length;
+      applyEngine(engineKeys[next]);
+      saveEnginePref(engineKeys[next]);
+      updateStickyEngineLabel();
+      document.getElementById('searchInput').focus();
+    }
+
+    function updateStickyVisibility() {
+      var heroBottom = heroEl.getBoundingClientRect().bottom;
+      if (heroBottom < 0) {
+        stickySearch.classList.add('visible');
+      } else {
+        stickySearch.classList.remove('visible');
+      }
+    }
+    window.addEventListener('scroll', updateStickyVisibility, { passive: true });
+    updateStickyVisibility();
 
     document.getElementById('searchInput').focus();
   </script>
