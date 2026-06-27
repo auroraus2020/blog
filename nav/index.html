@@ -87,6 +87,13 @@
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
+    .hero-notice {
+      font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem;
+    }
+    .hero-notice a {
+      color: var(--accent); text-decoration: none; font-weight: 500;
+    }
+    .hero-notice a:hover { text-decoration: underline; }
     .search-box {
       display: flex; max-width: 520px; margin: 0 auto; position: relative;
       background: var(--bg2); border: 1px solid var(--rule); border-radius: 50px; padding: 0.35rem;
@@ -343,6 +350,7 @@
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1>AURORAUS导航</h1>
+      <p class="hero-notice">后续该导航页面将迁移到：<a href="https://nav.auroraus.cn">nav.auroraus.cn</a></p>
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="输入关键词，必应搜索...">
         <button class="search-clear-btn" id="searchClearBtn" onclick="clearSearchInput()" title="清除输入（Ctrl+Space）" style="display:none">✕</button>
